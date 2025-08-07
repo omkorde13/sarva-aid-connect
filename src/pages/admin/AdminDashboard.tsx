@@ -8,6 +8,11 @@ import { useAuth } from '@/contexts/AuthContext';
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const stats = {
     activeRequests: 12,
@@ -55,7 +60,7 @@ const AdminDashboard = () => {
             <Button 
               variant="ghost" 
               size="sm" 
-              onClick={logout}
+              onClick={handleLogout}
               className="text-primary-foreground hover:bg-primary-foreground/20"
             >
               Logout

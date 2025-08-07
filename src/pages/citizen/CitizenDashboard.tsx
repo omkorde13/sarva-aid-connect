@@ -10,6 +10,11 @@ const CitizenDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+  
   // Mock data
   const nearestShelters = [
     { id: 1, name: "Community Center Shelter", distance: "0.5 km", status: "available", capacity: "50/100" },
@@ -56,7 +61,7 @@ const CitizenDashboard = () => {
             <Button 
               variant="ghost" 
               size="sm" 
-              onClick={logout}
+              onClick={handleLogout}
               className="text-primary-foreground hover:bg-primary-foreground/20"
             >
               Logout
