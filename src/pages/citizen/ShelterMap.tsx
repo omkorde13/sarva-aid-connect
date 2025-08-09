@@ -62,6 +62,34 @@ const ShelterMap = () => {
     }
   };
 
+  const handleGetDirections = (address: string) => {
+    // Create a URL for Google Maps or Apple Maps
+    const encodedAddress = encodeURIComponent(address);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isIOS) {
+      // Use Apple Maps for iOS devices
+      window.open(`maps://maps.google.com/maps?daddr=${encodedAddress}`, '_blank');
+    } else {
+      // Use Google Maps for other devices
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`, '_blank');
+    }
+  };
+
+  const handleGetDirectionsToNearest = () => {
+    const nearestShelter = shelters.reduce((nearest, current) => {
+      const nearestDistance = parseFloat(nearest.distance.replace(' km', ''));
+      const currentDistance = parseFloat(current.distance.replace(' km', ''));
+      return currentDistance < nearestDistance ? current : nearest;
+    });
+    
+    handleGetDirections(nearestShelter.address);
+  };
+
+  const handleCall = (phone: string) => {
+    window.open(`tel:${phone}`, '_self');
+  };
+
   const filteredShelters = shelters.filter(shelter =>
     shelter.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     shelter.address.toLowerCase().includes(searchQuery.toLowerCase())
@@ -111,7 +139,7 @@ const ShelterMap = () => {
             </CardContent>
           </Card>
 
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" onClick={handleGetDirectionsToNearest}>
             <Navigation className="h-4 w-4 mr-2" />
             Get Directions to Nearest Shelter
           </Button>
@@ -158,11 +186,21 @@ const ShelterMap = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleGetDirections(shelter.address)}
+                    >
                       <Navigation className="h-4 w-4 mr-2" />
                       Directions
                     </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => handleCall(shelter.phone)}
+                    >
                       <Phone className="h-4 w-4 mr-2" />
                       Call
                     </Button>
