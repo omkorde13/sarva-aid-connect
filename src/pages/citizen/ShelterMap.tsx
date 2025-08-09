@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, MapPin, Users, Search, Navigation, Phone } from 'lucide-react';
+import InteractiveMap from '@/components/InteractiveMap';
 
 const ShelterMap = () => {
   const navigate = useNavigate();
@@ -19,7 +20,8 @@ const ShelterMap = () => {
       status: "available",
       capacity: "50/100",
       resources: ["Food", "Water", "Medical"],
-      phone: "(555) 123-4567"
+      phone: "(555) 123-4567",
+      coordinates: [-74.006, 40.7128] as [number, number] // NYC coordinates as example
     },
     {
       id: 2,
@@ -29,7 +31,8 @@ const ShelterMap = () => {
       status: "limited",
       capacity: "80/90",
       resources: ["Food", "Water"],
-      phone: "(555) 234-5678"
+      phone: "(555) 234-5678",
+      coordinates: [-74.0020, 40.7589] as [number, number]
     },
     {
       id: 3,
@@ -39,7 +42,8 @@ const ShelterMap = () => {
       status: "full",
       capacity: "75/75",
       resources: ["Food", "Water", "Medical", "Clothing"],
-      phone: "(555) 345-6789"
+      phone: "(555) 345-6789",
+      coordinates: [-73.9857, 40.7484] as [number, number]
     },
     {
       id: 4,
@@ -49,7 +53,8 @@ const ShelterMap = () => {
       status: "available",
       capacity: "25/150",
       resources: ["Food", "Water", "Medical", "Pet Care"],
-      phone: "(555) 456-7890"
+      phone: "(555) 456-7890",
+      coordinates: [-73.9776, 40.7831] as [number, number]
     }
   ];
 
@@ -128,16 +133,14 @@ const ShelterMap = () => {
             />
           </div>
 
-          {/* Map Placeholder */}
-          <Card className="h-64 bg-muted/20">
-            <CardContent className="h-full flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                <p className="text-muted-foreground">Interactive Map</p>
-                <p className="text-sm text-muted-foreground">Showing shelters near you</p>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Interactive Map */}
+          <InteractiveMap 
+            shelters={filteredShelters}
+            onShelterSelect={(shelter) => {
+              console.log('Selected shelter:', shelter);
+              // You can add additional functionality here when a shelter is selected
+            }}
+          />
 
           <Button variant="outline" className="w-full" onClick={handleGetDirectionsToNearest}>
             <Navigation className="h-4 w-4 mr-2" />
