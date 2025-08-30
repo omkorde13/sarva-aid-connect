@@ -27,10 +27,10 @@ For full control and local development, I also work in my own environment.
 
 ```bash
 # Clone the repository
-git clone <YOUR_GIT_URL>
+git clone https://github.com/omkorde13/sarva-aid-connect.git
 
 # Navigate to the project folder
-cd <YOUR_PROJECT_NAME>
+cd sarva-aid-connect
 
 # Install dependencies
 npm install
